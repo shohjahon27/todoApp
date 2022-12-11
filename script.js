@@ -25,15 +25,17 @@ window.addEventListener("load", () => {
 
     localStorage.setItem("todos", JSON.stringify(todos));
 
+    // Reset the form
     e.target.reset();
+
     DisplayTodos();
   });
+
   DisplayTodos();
 });
 
 function DisplayTodos() {
   const todoList = document.querySelector("#todo-list");
-
   todoList.innerHTML = "";
 
   todos.forEach((todo) => {
@@ -51,20 +53,18 @@ function DisplayTodos() {
     input.type = "checkbox";
     input.checked = todo.done;
     span.classList.add("bubble");
-
     if (todo.category == "personal") {
       span.classList.add("personal");
     } else {
       span.classList.add("business");
     }
-
     content.classList.add("todo-content");
     actions.classList.add("actions");
     edit.classList.add("edit");
     deleteButton.classList.add("delete");
 
-    content.innerHTML = `<input type="text" value="${todo.content}" readonly`;
-    edit.innerHTML = "edit";
+    content.innerHTML = `<input type="text" value="${todo.content}" readonly>`;
+    edit.innerHTML = "Edit";
     deleteButton.innerHTML = "Delete";
 
     label.appendChild(input);
@@ -81,7 +81,7 @@ function DisplayTodos() {
       todoItem.classList.add("done");
     }
 
-    input.addEventListener("click", (e) => {
+    input.addEventListener("change", (e) => {
       todo.done = e.target.checked;
       localStorage.setItem("todos", JSON.stringify(todos));
 
@@ -90,12 +90,13 @@ function DisplayTodos() {
       } else {
         todoItem.classList.remove("done");
       }
+
       DisplayTodos();
     });
 
     edit.addEventListener("click", (e) => {
       const input = content.querySelector("input");
-      input.removeEventListener("readonly");
+      input.removeAttribute("readonly");
       input.focus();
       input.addEventListener("blur", (e) => {
         input.setAttribute("readonly", true);
@@ -106,7 +107,7 @@ function DisplayTodos() {
     });
 
     deleteButton.addEventListener("click", (e) => {
-      todos = todos.filter(t => t != todo);
+      todos = todos.filter((t) => t != todo);
       localStorage.setItem("todos", JSON.stringify(todos));
       DisplayTodos();
     });
