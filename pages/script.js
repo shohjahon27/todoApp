@@ -9,6 +9,9 @@ window.addEventListener("load", () => {
 
   nameInput.addEventListener("change", (e) => {
     localStorage.setItem("username", e.target.value);
+    if (nameInput.length > 18) {
+      nameInput = `${nameInput.substring(0, 18)}...`;
+    }
   });
 
   newTodoForm.addEventListener("submit", (e) => {
